@@ -1,0 +1,172 @@
+<!-- admission.html --><!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admission - Pieta Group of Schools</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f9ff;
+      margin: 0;
+    }header {
+  background-color: #003366;
+  color: white;
+  padding: 1.5rem 0;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #aad3ff;
+}
+
+.info {
+  padding: 3rem 1rem;
+  background: linear-gradient(to right, #e6f0ff, #ffffff);
+}
+
+h2, h3 {
+  text-align: center;
+  color: #003366;
+}
+
+form {
+  background: white;
+  max-width: 600px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+input, textarea, button {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+button {
+  background-color: #003366;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #0055aa;
+}
+
+.contact {
+  text-align: center;
+  margin-top: 2rem;
+}
+
+.contact p {
+  margin: 0.5rem 0;
+  color: #003366;
+}
+
+.success-popup {
+  position: fixed;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: #003366;
+  color: white;
+  padding: 2rem;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+  display: none;
+  text-align: center;
+}
+
+footer {
+  background-color: #001f3f;
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+  margin-top: 3rem;
+}
+
+  </style>
+  <script>
+    function handleAdmissionSubmit(event) {
+      event.preventDefault();
+      const popup = document.getElementById("success-popup");
+      popup.style.display = "block";
+      document.getElementById("admission-form").reset();
+      setTimeout(() => {
+        window.location.href = "index.html";
+      }, 3000);
+    }
+  </script>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="Home.html">Home</a></li>
+        <li><a href="Addform.html">Admission</a></li>
+        <li><a href="news.html">News</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="results.html">Student Result</a></li>
+        <li><a href="staff.html">Staff Portal</a></li>
+        <li><a href="result-checker.html">Result Checker</a></li>
+        <li><a href="complaints.html">Complaints</a></li>
+      </ul>
+    </nav>
+  </header>  <main>
+    <section class="info">
+      <div class="container">
+        <h2>Admission Form</h2>
+        <p style="text-align:center">Fill in the required details to apply for admission into Pieta Group of Schools.</p><form id="admission-form" action="https://example.com/api/admissions" method="post" onsubmit="handleAdmissionSubmit(event)">
+      <input type="text" name="fullname" placeholder="Full Name" required>
+      <input type="text" name="dob" placeholder="Date of Birth (DD/MM/YYYY)" required>
+      <input type="text" name="class" placeholder="Class Applying For" required>
+      <input type="email" name="email" placeholder="Parent/Guardian Email" required>
+      <input type="tel" name="phone" placeholder="Phone Number" required>
+      <textarea name="address" placeholder="Home Address" rows="3" required></textarea>
+      <button type="submit">Submit Application</button>
+    </form>
+
+    <div class="contact">
+      <h3>Contact Information</h3>
+      <p><strong>Address:</strong> Asaba</p>
+      <p><strong>Phone:</strong> +234-number</p>
+      <p><strong>Email:</strong> <a href="mailto:admissions@pietaschools.edu.ng">admissions@pietaschools.edu.ng</a></p>
+    </div>
+  </div>
+</section>
+
+  </main>  <div class="success-popup" id="success-popup">
+    Application Submitted Successfully! Redirecting...
+  </div>  <footer>
+    <div class="container">
+      <p>&copy; 2025 Pieta Group of Schools. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>

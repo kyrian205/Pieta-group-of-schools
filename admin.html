@@ -1,0 +1,115 @@
+<!-- admin.html --><!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Panel - Pieta School</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f9ff;
+      margin: 0;
+    }
+    header {
+      background-color: #003366;
+      color: white;
+      text-align: center;
+      padding: 1.5rem 0;
+    }
+    main {
+      max-width: 700px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    h2 {
+      text-align: center;
+      color: #003366;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+    }
+    input, textarea, button {
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      font-size: 1rem;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #003366;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0055aa;
+    }
+    .status {
+      text-align: center;
+      margin-top: 1rem;
+      color: green;
+    }
+  </style>
+ <li><a href="students.html">Student</a></li>
+  <script>
+    const ADMIN_PASS = "pietaAdmin2025";function checkAdminAccess() {
+  const input = prompt("Enter Admin Password:");
+  if (input !== ADMIN_PASS) {
+    alert("Access Denied");
+    window.location.href = "home.html";
+  }
+}
+
+async function handleRegister(event) {
+  event.preventDefault();
+  const form = document.getElementById('admin-form');
+  const formData = new FormData(form);
+
+  const response = await fetch('http://localhost:5000/api/students/register', {
+    method: 'POST',
+    body: formData
+  });
+
+  const status = document.getElementById('status');
+  if (response.ok) {
+    status.textContent = 'Student registered successfully!';
+    form.reset();
+  } else {
+    status.textContent = 'Registration failed.';
+    status.style.color = 'red';
+  }
+}
+
+window.onload = checkAdminAccess;
+
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Admin Panel</h1>
+  </header>
+  <main>
+    <h2>Register New Student</h2>
+    <form id="admin-form" enctype="multipart/form-data" onsubmit="handleRegister(event)">
+      <input type="text" name="username" placeholder="Username" required>
+      <input type="password" name="password" placeholder="Password" required>
+      <input type="text" name="fullname" placeholder="Full Name" required>
+      <input type="text" name="gender" placeholder="Gender" required>
+      <input type="date" name="dob" placeholder="Date of Birth" required>
+      <input type="text" name="class" placeholder="Class" required>
+      <input type="text" name="math" placeholder="Math Score" required>
+      <input type="text" name="english" placeholder="English Score" required>
+      <input type="text" name="science" placeholder="Science Score" required>
+      <textarea name="skills" placeholder="Cognitive Skills (e.g. punctuality, leadership, etc.)" rows="3"></textarea>
+      <textarea name="comment" placeholder="Comment" required rows="2"></textarea>
+      <input type="file" name="photo" accept="image/*" required>
+      <button type="submit">Register</button>
+      <div id="status" class="status"></div>
+    </form>
+  </main>
+</body>
+</html>

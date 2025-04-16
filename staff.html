@@ -1,0 +1,95 @@
+<!-- staff.html --><!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Staff Portal - Pieta Group of Schools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: #f5f9ff;
+    }
+    header {
+      background-color: #003366;
+      color: white;
+      padding: 1.5rem 0;
+      text-align: center;
+    }
+    h2 {
+      text-align: center;
+      color: #003366;
+      margin-top: 2rem;
+    }
+    form {
+      background: white;
+      max-width: 600px;
+      margin: 2rem auto;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0,0,0,0.1);
+    }
+    input, button {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+      font-size: 1rem;
+    }
+    button {
+      background-color: #003366;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s ease;
+    }
+    button:hover {
+      background-color: #0055aa;
+    }
+    .success-msg {
+      text-align: center;
+      color: green;
+      margin-top: 1rem;
+    }
+  </style>
+  <script>
+    const STAFF_PASS = "pieta2025";function checkAccess() {
+  const input = prompt("Enter Staff Password:");
+  if (input !== STAFF_PASS) {
+    alert("Access Denied");
+    window.location.href = "home.html";
+  }
+}
+
+async function handleResultUpload(event) {
+  event.preventDefault();
+  const formData = new FormData(document.getElementById('upload-form'));
+  const response = await fetch('http://localhost:5000/api/results/upload', {
+    method: 'POST',
+    body: formData
+  });
+  const msg = document.getElementById('upload-msg');
+  if (response.ok) {
+    msg.textContent = "Result uploaded successfully.";
+  } else {
+    msg.textContent = "Upload failed. Please try again.";
+  }
+}
+
+window.onload = checkAccess;
+
+  </script>
+</head>
+<body>
+  <header>
+    <h1>Staff Dashboard</h1>
+  </header>
+  <h2>Upload Student Result</h2>
+  <form id="upload-form" enctype="multipart/form-data" onsubmit="handleResultUpload(event)">
+    <input type="file" name="result_file" accept=".csv" required>
+    <button type="submit">Upload</button>
+    <div id="upload-msg" class="success-msg"></div>
+  </form>
+</body>
+</html>

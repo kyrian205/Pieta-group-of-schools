@@ -1,0 +1,84 @@
+<!-- complaints.html --><!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Complaint Form - Pieta Group of Schools</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      margin: 0;
+      background: #f0f6ff;
+    }
+    header {
+      background-color: #003366;
+      color: white;
+      text-align: center;
+      padding: 1.5rem;
+      font-size: 1.5rem;
+    }
+    form {
+      max-width: 600px;
+      margin: 2rem auto;
+      background: white;
+      padding: 2rem;
+      border-radius: 8px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+    }
+    input, textarea, button {
+      width: 100%;
+      padding: 0.75rem;
+      margin: 0.5rem 0;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: 1px solid #ccc;
+    }
+    button {
+      background-color: #003366;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0055aa;
+    }
+    .status {
+      text-align: center;
+      margin-top: 1rem;
+      color: green;
+    }
+  </style>
+  <script>
+    async function submitComplaint(event) {
+      event.preventDefault();
+      const formData = new FormData(document.getElementById("complaint-form"));const data = Object.fromEntries(formData.entries());
+  const res = await fetch("http://localhost:5000/api/complaints", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(data)
+  });
+
+  const status = document.getElementById("status");
+  if (res.ok) {
+    status.textContent = "Complaint submitted successfully.";
+    document.getElementById("complaint-form").reset();
+  } else {
+    status.textContent = "Submission failed.";
+    status.style.color = "red";
+  }
+}
+
+  </script>
+</head>
+<body>
+  <header>Complaint Form</header>
+  <form id="complaint-form" onsubmit="submitComplaint(event)">
+    <input type="text" name="name" placeholder="Your Name" required />
+    <input type="email" name="email" placeholder="Your Email" required />
+    <input type="text" name="subject" placeholder="Subject" required />
+    <textarea name="message" rows="5" placeholder="Type your complaint here..." required></textarea>
+    <button type="submit">Submit Complaint</button>
+    <div id="status" class="status"></div>
+  </form>
+</body>
+</html>

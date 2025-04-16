@@ -1,0 +1,149 @@
+<!-- students.html --><!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>All Students - Pieta Admin</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet" />
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f9ff;
+      margin: 0;
+      padding: 2rem;
+    }
+    h2 {
+      text-align: center;
+      color: #003366;
+    }
+    #search {
+      display: block;
+      margin: 1rem auto;
+      padding: 0.5rem;
+      font-size: 1rem;
+      width: 50%;
+      border-radius: 4px;
+      border: 1px solid #ccc;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      margin-top: 1rem;
+      background: white;
+      box-shadow: 0 0 8px rgba(0,0,0,0.1);
+    }
+    th, td {
+      padding: 0.75rem;
+      border: 1px solid #ccc;
+      text-align: center;
+      font-size: 0.9rem;
+    }
+    th {
+      background-color: #003366;
+      color: white;
+    }
+    img {
+      width: 60px;
+      height: 60px;
+      object-fit: cover;
+      border-radius: 4px;
+    }
+    .btn {
+      padding: 0.25rem 0.75rem;
+      font-size: 0.8rem;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .edit-btn {
+      background: #ffaa00;
+      color: white;
+    }
+    .delete-btn {
+      background: #cc0000;
+      color: white;
+    }
+  </style>
+  <script>
+    let allStudents = [];async function loadStudents() {
+  const response = await fetch('http://localhost:5000/api/students/list');
+  allStudents = await response.json();
+  renderTable(allStudents);
+}
+
+function renderTable(students) {
+  const tbody = document.getElementById('student-body');
+  tbody.innerHTML = '';
+  students.forEach(s => {
+    const row = document.createElement('tr');
+    row.innerHTML = `
+      <td><img src="http://localhost:5000/student_photos/${s.photo}" alt="photo" /></td>
+      <td>${s.username}</td>
+      <td>${s.fullname}</td>
+      <td>${s.gender}</td>
+      <td>${s.class}</td>
+      <td>${s.math}</td>
+      <td>${s.english}</td>
+      <td>${s.science}</td>
+      <td>${s.skills}</td>
+      <td>${s.comment}</td>
+      <td>
+        <button class="btn edit-btn" onclick="editStudent('${s.username}')">Edit</button>
+        <button class="btn delete-btn" onclick="deleteStudent('${s.username}')">Delete</button>
+      </td>
+    `;
+    tbody.appendChild(row);
+  });
+}
+
+function filterTable() {
+  const search = document.getElementById('search').value.toLowerCase();
+  const filtered = allStudents.filter(s =>
+    s.username.toLowerCase().includes(search) ||
+    s.fullname.toLowerCase().includes(search) ||
+    s.class.toLowerCase().includes(search)
+  );
+  renderTable(filtered);
+}
+
+function editStudent(username) {
+  alert(`Edit form for ${username} not yet implemented.`);
+}
+
+async function deleteStudent(username) {
+  if (!confirm(`Are you sure you want to delete ${username}?`)) return;
+  const res = await fetch(`http://localhost:5000/api/students/delete/${username}`, { method: 'DELETE' });
+  if (res.ok) {
+    alert('Student deleted.');
+    loadStudents();
+  } else {
+    alert('Failed to delete student.');
+  }
+}
+
+window.onload = loadStudents;
+
+  </script>
+</head>
+<body>
+  <h2>Registered Students</h2>
+  <input type="text" id="search" onkeyup="filterTable()" placeholder="Search by name, username, or class" />
+  <table>
+    <thead>
+      <tr>
+        <th>Photo</th>
+        <th>Username</th>
+        <th>Full Name</th>
+        <th>Gender</th>
+        <th>Class</th>
+        <th>Math</th>
+        <th>English</th>
+        <th>Science</th>
+        <th>Skills</th>
+        <th>Comment</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody id="student-body"></tbody>
+  </table>
+</body>
+</html>

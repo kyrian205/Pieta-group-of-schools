@@ -1,0 +1,199 @@
+<!-- result-checker.html --><!DOCTYPE html><html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Result Checker - Pieta Group of Schools</title>
+  <link rel="stylesheet" href="styles.css">
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: #f5f9ff;
+      margin: 0;
+      padding: 0;
+    }header {
+  background-color: #003366;
+  color: white;
+  padding: 1.5rem 0;
+}
+
+nav ul {
+  list-style: none;
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 1.5rem;
+  padding: 0;
+  margin: 0;
+}
+
+nav a {
+  color: white;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #aad3ff;
+}
+
+.info {
+  padding: 3rem 1rem;
+  background: linear-gradient(to right, #e6f0ff, #ffffff);
+}
+
+h2 {
+  text-align: center;
+  color: #003366;
+}
+
+form {
+  background: white;
+  max-width: 500px;
+  margin: 2rem auto;
+  padding: 2rem;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0,0,0,0.1);
+}
+
+input, button {
+  width: 100%;
+  padding: 0.75rem;
+  margin: 0.5rem 0;
+  border-radius: 4px;
+  border: 1px solid #ccc;
+  font-size: 1rem;
+}
+
+button {
+  background-color: #003366;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease;
+}
+
+button:hover {
+  background-color: #0055aa;
+}
+
+.download-btn, .print-btn, .student-link {
+  display: inline-block;
+  margin-top: 1rem;
+  background-color: #004080;
+  color: white;
+  padding: 0.75rem 1.5rem;
+  text-decoration: none;
+  border-radius: 4px;
+  font-weight: bold;
+}
+
+.download-btn:hover, .print-btn:hover, .student-link:hover {
+  background-color: #0060c0;
+}
+
+#result-output {
+  text-align: center;
+  font-size: 1.1rem;
+}
+
+footer {
+  background-color: #001f3f;
+  color: white;
+  text-align: center;
+  padding: 1rem 0;
+}
+
+  </style>
+  <script>
+    let demoResults = [
+      { username: "john123", card: "ABC123", math: 85, english: 78, science: 92, pdf: "john123_result.pdf", used: 0 },
+      { username: "mary456", card: "XYZ456", math: 90, english: 88, science: 85, pdf: "mary456_result.pdf", used: 0 },
+      { username: "emma789", card: "JKL789", math: 75, english: 80, science: 70, pdf: "emma789_result.pdf", used: 0 },
+      { username: "david000", card: "MNO321", math: 88, english: 74, science: 81, pdf: "david000_result.pdf", used: 0 }
+    ];function generateNewCard() {
+  const charset = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+  let pin = '';
+  for (let i = 0; i < 6; i++) pin += charset[Math.floor(Math.random() * charset.length)];
+  return pin;
+}
+
+function printResult() {
+  const resultContent = document.getElementById('result-output').innerHTML;
+  const win = window.open('', '', 'width=800,height=600');
+  win.document.write(`<html><head><title>Print Result</title><style>body{font-family:Poppins,sans-serif;padding:20px}h3{color:#003366}</style></head><body>${resultContent}</body></html>`);
+  win.document.close();
+  win.print();
+}
+
+function checkResult(event) {
+  event.preventDefault();
+
+  const username = document.getElementById('username').value.trim();
+  const card = document.getElementById('card').value.trim();
+  const result = demoResults.find(r => r.username === username && r.card === card);
+  const display = document.getElementById('result-output');
+
+  if (!result) {
+    display.innerHTML = `<p style="color:red">Invalid username or scratch card number.</p>`;
+    return;
+  }
+
+  if (result.used >= 3) {
+    result.card = generateNewCard();
+    result.used = 0;
+    display.innerHTML = `<p style="color:red">Your scratch card has expired after 3 uses.<br>Please purchase a new card to continue accessing your results.</p>`;
+    return;
+  }
+
+  result.used++;
+
+  display.innerHTML = `
+    <h3>Result for ${result.username}</h3>
+    <p><strong>Math:</strong> ${result.math}</p>
+    <p><strong>English:</strong> ${result.english}</p>
+    <p><strong>Science:</strong> ${result.science}</p>
+    <p><strong>Card Usage:</strong> ${result.used}/3</p>
+    <a href="pdfs/${result.pdf}" download class="download-btn">Download Result PDF</a>
+    <button onclick="printResult()" class="print-btn">Print Result</button>
+    <br><a href="results.html" class="student-link">Go to Student Portal</a>
+  `;
+}
+
+  </script>
+</head>
+<body>
+  <header>
+    <nav>
+      <ul>
+        <li><a href="home.html">Home</a></li>
+        <li><a href="Addform.html">Admission</a></li>
+        <li><a href="news.html">News</a></li>
+        <li><a href="gallery.html">Gallery</a></li>
+        <li><a href="results.html">Student Result</a></li>
+        <li><a href="staff.html">Staff Portal</a></li>
+        <li><a href="result-checker.html">Result Checker</a></li>
+        <li><a href="complaints.html">Complaints</a></li>
+      </ul>
+    </nav>
+  </header>  <main>
+    <section class="info">
+      <div class="container">
+        <h2>Check Your Result</h2>
+        <form onsubmit="checkResult(event)">
+          <input type="text" id="username" placeholder="Student Username" required>
+          <input type="text" id="card" placeholder="Scratch Card Number" required>
+          <button type="submit">Check Result</button>
+        </form>
+        <div id="result-output" style="margin-top:2rem;"></div>
+      </div>
+    </section>
+  </main>  <footer>
+    <div class="container">
+      <p>&copy; 2025 Pieta Group of Schools. All rights reserved.</p>
+    </div>
+  </footer>
+</body>
+</html>
